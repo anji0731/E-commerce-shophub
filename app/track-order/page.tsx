@@ -11,13 +11,14 @@ import Loading from './loading';
 
 export default function TrackOrderPage() {
   const searchParams = useSearchParams();
-  const orderId = searchParams.get('orderId') || '';
+  const initialOrderId = searchParams.get('orderId') || '';
+  const [searchOrderId, setSearchOrderId] = useState(initialOrderId);
   const [isSearching, setIsSearching] = useState(false);
   const [orderFound, setOrderFound] = useState(false);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    if (orderId.trim()) {
+    if (searchOrderId.trim()) {
       setIsSearching(true);
       setTimeout(() => {
         setIsSearching(false);
@@ -50,8 +51,8 @@ export default function TrackOrderPage() {
               <Search className="absolute left-4 top-3 w-5 h-5 text-muted-foreground" />
               <input
                 type="text"
-                value={orderId}
-                onChange={(e) => setOrderId(e.target.value)}
+                value={searchOrderId}
+                onChange={(e) => setSearchOrderId(e.target.value)}
                 placeholder="Enter your order ID (e.g., ORD001)"
                 className="w-full pl-12 pr-4 py-3 border border-border rounded-lg bg-background text-foreground placeholder:text-muted-foreground outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition"
               />
@@ -73,7 +74,7 @@ export default function TrackOrderPage() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div>
                 <p className="text-sm text-muted-foreground mb-1">Order ID</p>
-                <p className="text-lg font-bold text-foreground">{orderId}</p>
+                <p className="text-lg font-bold text-foreground">{searchOrderId}</p>
               </div>
               <div>
                 <p className="text-sm text-muted-foreground mb-1">Order Date</p>
@@ -178,8 +179,4 @@ export default function TrackOrderPage() {
       </div>
     </div>
   );
-}
-
-export function generateStaticParams() {
-  return [{ orderId: 'ORD001' }, { orderId: 'ORD002' }];
 }
